@@ -15,3 +15,14 @@ if [[ ! -d "$run_path" ]]; then
 fi
 
 ln -s "$run_path" "$root_path/bin"
+
+#copy current item to folder
+rm -rf "$root_path/bin/keyboards/handwired/dactyl_promicro"
+
+#copy current content
+cp -rv "$root_path/src" -T "$root_path/bin/keyboards/handwired/dactyl_promicro"
+
+#build
+cd "$root_path/bin"
+
+qmk compile -kb handwired/dactyl_promicro -km default
