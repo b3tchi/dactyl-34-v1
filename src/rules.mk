@@ -4,6 +4,9 @@ MCU = atmega32u4
 # Bootloader selection
 BOOTLOADER = caterina
 
+#shift holding rule
+SRC += features/custom_shift_keys.c
+
 # Build Options
 #   change yes to no to disable
 #

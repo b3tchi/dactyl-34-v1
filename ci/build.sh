@@ -1,11 +1,19 @@
 #!/bin/bash
 root_path="$(realpath "$(dirname $0)/..")"
 
+
 #check layout
 if [[ -z "$1" ]]; then
   layout=default
 else
   layout="$1"
+fi
+
+#check layout
+if [[ -z "$2" ]]; then
+  action=compile
+else
+  action="$2"
 fi
 
 # echo "$root_path"
@@ -31,4 +39,4 @@ cp -rv "$root_path/src" -T "$root_path/bin/keyboards/handwired/dactyl_promicro"
 #build
 cd "$root_path/bin"
 
-qmk compile -kb handwired/dactyl_promicro -km "$layout"
+qmk $action -kb handwired/dactyl_promicro -km "$layout"
