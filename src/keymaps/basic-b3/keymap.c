@@ -20,8 +20,7 @@ const custom_shift_key_t custom_shift_keys[] = {
   {KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK} // Shift ' is "
 };
 
-uint8_t NUM_CUSTOM_SHIFT_KEYS =
-    sizeof(custom_shift_keys) / sizeof(custom_shift_key_t);
+uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_key_t);
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
   if (!process_custom_shift_keys(keycode, record)) { return false; }
