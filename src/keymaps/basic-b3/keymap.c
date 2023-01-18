@@ -81,9 +81,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TO(0)                ,OSM(MOD_LSFT) ,OSM(MOD_RCTL)       ,TO(1)
     ),
     [3] = LAYOUT_5x4(
-        KC_ESCAPE            ,KC_DOT        ,KC_SLSH             ,KC_ASTR              ,KC_MINS      ,KC_MINS      ,KC_7             ,KC_8               ,KC_9           ,KC_MS_RIGHT           ,
-        KC_TAB               ,KC_LPRN       ,MT(MOD_LALT,KC_EQL) ,MT(MOD_LGUI,KC_QUOT) ,KC_EXLM      ,KC_EQL       ,KC_MS_LEFT             ,KC_5               ,KC_6     ,KC_ENTER       ,
-        KC_BSPC              ,KC_MS_BTN2    ,KC_MS_UP,    KC_MS_DOWN, KC_MS_BTN1,       ,KC_KP_DOT    ,KC_0         ,KC_1             ,KC_2               ,KC_3           ,KC_LGUI        ,
+        KC_ESCAPE            ,KC_DOT        ,KC_SLSH             ,KC_ASTR              ,KC_MINS      ,KC_MINS      ,KC_7         ,KC_8               ,KC_9               ,KC_MS_RIGHT           ,
+        KC_TAB               ,KC_LPRN       ,MT(MOD_LALT,KC_EQL) ,MT(MOD_LGUI,KC_QUOT) ,KC_EXLM      ,KC_EQL       ,KC_MS_LEFT   ,KC_5               ,KC_6               ,KC_ENTER       ,
+        KC_BSPC              ,KC_MS_BTN2    ,KC_MS_UP            ,KC_MS_DOWN           ,KC_MS_BTN1   ,KC_0         ,KC_1         ,KC_2               ,KC_3               ,KC_LGUI        ,
         TO(0)                ,OSM(MOD_LSFT) ,OSM(MOD_RCTL)       ,TO(1)
     )
 };
