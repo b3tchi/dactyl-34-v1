@@ -6,3 +6,6 @@ https://getreuer.info/posts/keyboards/custom-shift-keys/index.html
 
 # ben vallack 34 keyboard layout using another interesting concept of tap dance TD()
 https://github.com/benvallack/34-QMK-Ferris-Sweep/blob/main/keymap.c
+
+# list of default keycodes
+https://docs.qmk.fm/#/keycodes_basic
