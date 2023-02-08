@@ -58,7 +58,8 @@ enum tap_dance_codes {
 // #define ALT_MENU LALT_T(KC_MENU)
 // #define LG_QUOT LGUI_T(KC_QUOT)
 // #define CTL_ESC LCTL_T(KC_ESC)
-// #define CTL_SLS LCTL_T(KC_SLSH)
+ #define CTL_LA LCTL_T(KC_LEFT)
+ #define CTL_RA LCTL_T(KC_RGHT)
 // #define LT2_COL LT(_RAISE, KC_SCLN)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -69,20 +70,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LT(3,KC_SPACE)       ,OSM(MOD_LSFT)    ,LT(1,KC_ENTER)      ,LT(2,KC_BSPC)
     ),
     [1] = LAYOUT_5x4(
-        KC_1                 ,KC_2             ,KC_3                ,KC_4          ,KC_5                ,KC_6               ,KC_7    ,KC_8                 ,KC_9                ,KC_0  ,
-        KC_TAB               ,MT(MOD_LCTL,KC_1),MT(MOD_LALT,KC_EQL) ,KC_EXLM       ,MT(MOD_RGUI,KC_QUOT),MT(MOD_LGUI,KC_GRV),KC_LEFT ,MT(MOD_LALT,KC_BSLS) ,MT(MOD_RCTL,KC_0)   ,KC_TAB ,
-        KC_ESCAPE            ,KC_LT            ,KC_DOWN             ,KC_UP         ,KC_NO               ,KC_SCLN            ,KC_NO   ,KC_LBRC              ,KC_LCBR             ,KC_ESCAPE,
+        KC_1                 ,KC_2             ,KC_3                ,KC_4          ,KC_GT                ,KC_LT             ,KC_ESCAPE     ,KC_LPRN           ,KC_LCBR          ,KC_RGHT,
+        KC_TAB               ,MT(MOD_LCTL,KC_1),MT(MOD_LALT,KC_EQL) ,KC_EXLM       ,MT(MOD_RGUI,KC_QUOT) ,KC_GT             ,KC_LEFT       ,KC_RPRN           ,KC_RCBR          ,KC_NO,
+        KC_ESCAPE            ,KC_LT            ,KC_DOWN             ,KC_UP         ,KC_NO                ,CTL_LA            ,KC_TAB        ,CTL_RA            ,KC_LBRC          ,KC_RBRC,
         TO(0)                ,OSM(MOD_LSFT)    ,KC_ENTER            ,KC_BSPC
     ),
     [2] = LAYOUT_5x4(
-        KC_F1                ,KC_F2            ,KC_F3               ,KC_F4        ,KC_F5  ,KC_BRIGHTNESS_UP  ,KC_AUDIO_VOL_UP      ,KC_MEDIA_NEXT_TRACK  ,KC_MEDIA_PLAY_PAUSE ,KC_RGHT     ,
-        KC_F6                ,KC_F7            ,KC_F8               ,KC_F9        ,KC_F10 ,MT(MOD_RGUI,KC_QUOT) ,KC_LEFT           ,MT(MOD_LALT,KC_DOWN) ,MT(MOD_RCTL,KC_LEFT),KC_NO       ,
-        TO(1)                ,KC_F11           ,KC_DOWN             ,KC_UP        ,KC_F12 ,TD(DANCE_60)      ,KC_MS_ACCEL0         ,KC_MEDIA_NEXT_TRACK  ,KC_MS_ACCEL2        ,KC_NO       ,
-        TO(0)                ,OSM(MOD_LSFT)    ,KC_ENTER            ,KC_BSPC
+        KC_F10              ,KC_F7            ,KC_F8               ,KC_F9        ,KC_NO                ,KC_MINS              ,KC_7  ,KC_8              ,KC_9          ,KC_NO     ,
+        KC_F11              ,MT(MOD_LCTL,KC_F4),MT(MOD_LALT,KC_F5) ,KC_F6        ,MT(MOD_RGUI,KC_QUOT) ,MT(MOD_RGUI,KC_QUOT) ,KC_4  ,MT(MOD_LALT,KC_5) ,MT(MOD_RCTL,6),KC_NO     ,
+        KC_F12              ,KC_F1            ,KC_F2               ,KC_F3        ,KC_NO                ,KC_0                 ,KC_1  ,KC_2              ,KC_3          ,KC_NO     ,
+        TO(0)                ,OSM(MOD_LSFT)    ,KC_ENTER           ,KC_BSPC
     ),
+
+
     [3] = LAYOUT_5x4(
         KC_ESCAPE            ,KC_DOT        ,KC_SLSH             ,KC_ASTR              ,KC_MINS      ,KC_MINS      ,KC_7         ,KC_8               ,KC_9               ,KC_MS_RIGHT    ,
-        KC_TAB               ,KC_LPRN       ,MT(MOD_LALT,KC_EQL) ,MT(MOD_LGUI,KC_QUOT) ,KC_EXLM      ,KC_EQL       ,KC_MS_LEFT   ,KC_5               ,KC_6               ,KC_ENTER       ,
+        KC_TAB               ,KC_LPRN       ,MT(MOD_LALT,KC_EQL) ,MT(MOD_LGUI,KC_QUOT) ,KC_EXLM      ,KC_EQL       ,KC_4         ,KC_5               ,KC_6               ,KC_ENTER       ,
         TO(1)                ,KC_MS_BTN1    ,KC_MS_DOWN          ,KC_MS_UP             ,KC_MS_BTN2   ,KC_0         ,KC_1         ,KC_2               ,KC_3               ,KC_LGUI        ,
         TO(0)                ,OSM(MOD_LSFT) ,KC_ENTER            ,KC_BSPC
     )
