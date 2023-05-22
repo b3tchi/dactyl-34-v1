@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "config_common.h"
+// #include "config_common.h"
 
 /* key matrix size */
 // Rows are doubled-up
@@ -52,9 +52,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLED_NUM 12    // Number of LEDs
 
 /* tapping settings */
-#define IGNORE_MOD_TAP_INTERRUPT
+#define HOLD_ON_OTHER_KEY_PRESS // replacing obsolete statement > #define IGNORE_MOD_TAP_INTERRUPT
 #define TAPPING_TERM 200
-#define QUICK_TAP_TERM 0
+// #define QUICK_TAP_TERM 0
 
 //REMOVED
 // #define TAPPING_FORCE_HOLD
