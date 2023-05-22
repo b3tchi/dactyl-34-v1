@@ -197,56 +197,40 @@
 
     }
 
-    void sym_lgui_finished(tap_dance_state_t *state, void *user_data) {
+    void td_fin16(tap_dance_state_t *state, uint16_t  keycode_TAP, uint8_t  keycode_HOLD){
         dance_state.step = cur_dance(state);
         switch (dance_state.step) {
-            case TD_SINGLE_TAP:         register_code16(KC_LT);                      break;
-            case TD_SINGLE_HOLD:        register_mods(MOD_BIT(KC_LGUI));               break;
+            case TD_SINGLE_TAP:         register_code16(keycode_TAP);                      break;
+            case TD_SINGLE_HOLD:        register_mods(MOD_BIT(keycode_HOLD));               break;
             default: break;
         }
+    }
+
+    void td_rst16(tap_dance_state_t *state, uint16_t  keycode_TAP, uint8_t  keycode_HOLD) {
+        wait_ms(10);
+        switch (dance_state.step) {
+            case TD_SINGLE_TAP:         unregister_code16(keycode_TAP);        break;
+            case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(keycode_HOLD)); break;
+            default: break;
+        }
+        dance_state.step = 0;
+    }
+
+    void sym_lgui_finished(tap_dance_state_t *state, void *user_data) {
+        td_fin16(state,KC_LT,KC_LGUI);
     }
 
     void sym_lgui_reset(tap_dance_state_t *state, void *user_data) {
-        wait_ms(10);
-        switch (dance_state.step) {
-            case TD_SINGLE_TAP:         unregister_code16(KC_LT);        break;
-            case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(KC_LGUI)); break;
-            default: break;
-        }
-        dance_state.step = 0;
+        td_rst16(state,KC_LT,KC_LGUI);
     }
 
     // --
-    // uint8_t sym_lalt_dance_step(tap_dance_state_t *state);
-    // void sym_lalt_finished(tap_dance_state_t *state, void *user_data);
-    // void sym_lalt_reset(tap_dance_state_t *state, void *user_data);
-    //
-    // uint8_t sym_lalt_dance_step(tap_dance_state_t *state) {
-    //     if (state->count == 1) {
-    //         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
-    //         else return TD_SINGLE_HOLD;
-    //     }
-    //     return TD_UNKNOWN; // Any number higher than the maximum state value you return above
-    //
-    // }
-
     void sym_lalt_finished(tap_dance_state_t *state, void *user_data) {
-        dance_state.step = cur_dance(state);
-        switch (dance_state.step) {
-            case TD_SINGLE_TAP:         register_code16(KC_LPRN);                      break;
-            case TD_SINGLE_HOLD:        register_mods(MOD_BIT(KC_LALT));               break;
-            default: break;
-        }
+        td_fin16(state,KC_LPRN,KC_LALT);
     }
 
     void sym_lalt_reset(tap_dance_state_t *state, void *user_data) {
-        wait_ms(10);
-        switch (dance_state.step) {
-            case TD_SINGLE_TAP:         unregister_code16(KC_LPRN);        break;
-            case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(KC_LALT)); break;
-            default: break;
-        }
-        dance_state.step = 0;
+        td_rst16(state,KC_LPRN,KC_LALT);
     }
 
     // --
@@ -264,22 +248,24 @@
     // }
 
     void sym_lctl_finished(tap_dance_state_t *state, void *user_data) {
-        dance_state.step = cur_dance(state);
-        switch (dance_state.step) {
-            case TD_SINGLE_TAP:         register_code16(KC_LCBR);                      break;
-            case TD_SINGLE_HOLD:        register_mods(MOD_BIT(KC_LCTL));               break;
-            default: break;
-        }
+        td_fin16(state,KC_LCBR,KC_LCTL);
+        // dance_state.step = cur_dance(state);
+        // switch (dance_state.step) {
+        //     case TD_SINGLE_TAP:         register_code16(KC_LCBR);                      break;
+        //     case TD_SINGLE_HOLD:        register_mods(MOD_BIT(KC_LCTL));               break;
+        //     default: break;
+        // }
     }
 
     void sym_lctl_reset(tap_dance_state_t *state, void *user_data) {
-        wait_ms(10);
-        switch (dance_state.step) {
-            case TD_SINGLE_TAP:         unregister_code16(KC_LCBR);        break;
-            case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(KC_LCTL)); break;
-            default: break;
-        }
-        dance_state.step = 0;
+        td_rst16(state,KC_LCBR,KC_LCTL);
+        // wait_ms(10);
+        // switch (dance_state.step) {
+        //     case TD_SINGLE_TAP:         unregister_code16(KC_LCBR);        break;
+        //     case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(KC_LCTL)); break;
+        //     default: break;
+        // }
+        // dance_state.step = 0;
     }
 
     // --
@@ -296,24 +282,24 @@
     //
     // }
 
-    void sym_lsft_finished(tap_dance_state_t *state, void *user_data) {
-        dance_state.step = cur_dance(state);
-        switch (dance_state.step) {
-            case TD_SINGLE_TAP:         register_code16(KC_LBRC);                      break;
-            case TD_SINGLE_HOLD:        register_mods(MOD_BIT(KC_LSFT));               break;
-            default: break;
-        }
-    }
+    void sym_lsft_finished(tap_dance_state_t *state, void *user_data) { td_fin16(state,KC_LBRC,KC_LSFT); }
+        // dance_state.step = cur_dance(state);
+        // switch (dance_state.step) {
+        //     case TD_SINGLE_TAP:         register_code16(KC_LBRC);                      break;
+        //     case TD_SINGLE_HOLD:        register_mods(MOD_BIT(KC_LSFT));               break;
+        //     default: break;
+        // }
+    // }
 
-    void sym_lsft_reset(tap_dance_state_t *state, void *user_data) {
-        wait_ms(10);
-        switch (dance_state.step) {
-            case TD_SINGLE_TAP:         unregister_code16(KC_LBRC);        break;
-            case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(KC_LSFT)); break;
-            default: break;
-        }
-        dance_state.step = 0;
-    }
+    void sym_lsft_reset(tap_dance_state_t *state, void *user_data) { td_rst16(state,KC_LBRC,KC_LSFT); }
+        // wait_ms(10);
+        // switch (dance_state.step) {
+        //     case TD_SINGLE_TAP:         unregister_code16(KC_LBRC);        break;
+        //     case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(KC_LSFT)); break;
+        //     default: break;
+        // }
+        // dance_state.step = 0;
+    // }
 
     // --
     // uint8_t bas_lalt_dance_step(tap_dance_state_t *state);
@@ -329,24 +315,23 @@
     //
     // }
 
-    void bas_lalt_finished(tap_dance_state_t *state, void *user_data) {
-        dance_state.step = cur_dance(state);
-        switch (dance_state.step) {
-            case TD_SINGLE_TAP:         register_code(KC_T);                      break;
-            case TD_SINGLE_HOLD:        register_mods(MOD_BIT(KC_LALT));          break;
-            default: break;
-        }
-    }
+    void bas_lalt_finished(tap_dance_state_t *state, void *user_data) { td_fin16(state,KC_LBRC,KC_LSFT); }// dance_state.step = cur_dance(state);
+        // switch (dance_state.step) {
+        //     case TD_SINGLE_TAP:         register_code(KC_T);                      break;
+        //     case TD_SINGLE_HOLD:        register_mods(MOD_BIT(KC_LALT));          break;
+        //     default: break;
+        // }
+    // }
 
-    void bas_lalt_reset(tap_dance_state_t *state, void *user_data) {
-        wait_ms(10);
-        switch (dance_state.step) {
-            case TD_SINGLE_TAP:         unregister_code(KC_T);        break;
-            case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(KC_LSFT)); break;
-            default: break;
-        }
-        dance_state.step = 0;
-    }
+    void bas_lalt_reset(tap_dance_state_t *state, void *user_data) { td_rst16(state,KC_LBRC,KC_LSFT); }
+        // wait_ms(10);
+        // switch (dance_state.step) {
+        //     case TD_SINGLE_TAP:         unregister_code(KC_T);        break;
+        //     case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(KC_LSFT)); break;
+        //     default: break;
+        // }
+        // dance_state.step = 0;
+    // }
 
     // --
     tap_dance_action_t tap_dance_actions[] = {
