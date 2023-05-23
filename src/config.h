@@ -52,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* tapping settings */
 // #define HOLD_ON_OTHER_KEY_PRESS // replacing obsolete statement >
 #define IGNORE_MOD_TAP_INTERRUPT
-#define TAPPING_TERM 150
+#define TAPPING_TERM 200
 #define QUICK_TAP_TERM 100
 
 //REMOVED
