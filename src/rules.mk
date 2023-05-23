@@ -10,7 +10,7 @@ SRC += features/custom_shift_keys.c
 # Build Options
 #   change yes to no to disable
 #
-TAP_DANCE_ENABLE = yes      # enabling tab dances
+# TAP_DANCE_ENABLE = yes      # enabling tab dances
 BOOTMAGIC_ENABLE = yes      # Enable Bootmagic Lite
 
 MOUSEKEY_ENABLE = yes       # Mouse keys
