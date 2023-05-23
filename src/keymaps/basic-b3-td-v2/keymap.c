@@ -20,6 +20,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
 // TAP DANCE
 //to avoid lot of duplication customized macro function ACTION_TAP_DANCE_FN_ADVANCED
+#define MY_ATDFA(user_fn_on_each_tap, user_fn_on_dance_finished, user_fn_on_dance_reset, user_user_data) \
+    { .fn = {user_fn_on_each_tap, user_fn_on_dance_finished, user_fn_on_dance_reset}, .user_data = (void *)user_user_data, }
 
 typedef struct {
     uint16_t keycode_TAP;         // Keycode:
@@ -34,8 +36,16 @@ typedef enum {
     TD_DOUBLE_SINGLE_TAP
 } td_state_t;
 
-static td_state_t td_state;
+typedef struct {
+    bool       is_press_action;
+    td_state_t state;
+} td_tap_t;
 
+static td_tap_t td_tap_state = {
+    .is_press_action = true,
+    .state           = TD_NONE
+};
+// static td_state_t td_state;
 
 // LAYOUT SETUP
 enum tap_dance_codes {
@@ -132,90 +142,115 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-extern bool g_suspend_state;
-#define GET_TAP_KC(dual_role_key) dual_role_key & 0xFF
-uint16_t last_keycode = KC_NO;
-uint8_t last_modifier = 0;
+// extern bool g_suspend_state;
+// #define GET_TAP_KC(dual_role_key) dual_role_key & 0xFF
+// uint16_t last_keycode = KC_NO;
+// uint8_t last_modifier = 0;
 
 //TAP FUNCTIONS
 // Determine the tapdance state to return
-td_state_t cur_dance(qk_tap_dance_state_t *state) {
-    if (state->count == 1) {
+td_state_t cur_dance(tap_dance_state_t *state) {
+     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
         else return TD_SINGLE_HOLD;
     }
-    return TD_UNKNOWN; // Any number higher than the maximum state value you return above
+
+    if (state->count == 2) return TD_DOUBLE_SINGLE_TAP;
+    else return TD_UNKNOWN; // Any number higher than the maximum state value you return above/ Any number higher than the maximum state value you return above
 }
 
-// void td_fin16(qk_tap_dance_state_t *state, void *user_data) {
-//     uint16_t  keycode_TAP   = ((td_usr_t *)user_data)->keycode_TAP;
-//     uint8_t  keycode_HOLD   = ((td_usr_t *)user_data)->keycode_HOLD;
-//
-//     td_state = cur_dance(state);
-//     switch (td_state) {
-//         case TD_SINGLE_TAP:         register_code16(keycode_TAP);             break;
-//         case TD_SINGLE_HOLD:        register_mods(MOD_BIT(keycode_HOLD));     break;
-//         default: break;
-//     }
-// }
-//
-// void td_rst16(qk_tap_dance_state_t *state, void *user_data) {
-//     uint16_t  keycode_TAP   = ((td_usr_t *)user_data)->keycode_TAP;
-//     uint8_t  keycode_HOLD   = ((td_usr_t *)user_data)->keycode_HOLD;
-//
-//     switch (td_state) {
-//         case TD_SINGLE_TAP:         unregister_code16(keycode_TAP);             break;
-//         case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(keycode_HOLD));     break;
-//         default: break;
-//     }
-// }
+void td_fin16(tap_dance_state_t *state, void *user_data) {
+    td_tap_state.state = cur_dance(state);
 
-void td_nav_ralt_fin16(qk_tap_dance_state_t *state, void *user_data) {
+    uint16_t  keycode_TAP   = ((td_usr_t *)user_data)->keycode_TAP;
+    uint8_t  keycode_HOLD   = ((td_usr_t *)user_data)->keycode_HOLD;
 
-    td_state = cur_dance(state);
-    switch (td_state) {
+    switch (td_tap_state.state) {
+        case TD_SINGLE_TAP:
+            register_code16(keycode_TAP);
+            break;
+        case TD_SINGLE_HOLD:
+            register_mods(MOD_BIT(keycode_HOLD)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+            tap_code16(keycode_TAP);
+            register_code16(keycode_TAP);
+            break;
+        default:
+            break;
+    }
+
+}
+
+void td_rst16(tap_dance_state_t *state, void *user_data) {
+    uint16_t  keycode_TAP   = ((td_usr_t *)user_data)->keycode_TAP;
+    uint8_t  keycode_HOLD   = ((td_usr_t *)user_data)->keycode_HOLD;
+
+    switch (td_tap_state.state) {
+        case TD_SINGLE_TAP:
+            unregister_code16(keycode_TAP);
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_mods(MOD_BIT(keycode_HOLD)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_SINGLE_TAP:
+            unregister_code16(keycode_TAP);
+            break;
+        default:
+            break;
+    }
+    td_tap_state.state = TD_NONE;
+
+}
+
+void td_nav_ralt_fin16(tap_dance_state_t *state, void *user_data) {
+
+    td_tap_state.state = cur_dance(state);
+    switch (td_tap_state.state) {
         case TD_SINGLE_TAP:         register_code16(KC_LPRN);            break;
         case TD_SINGLE_HOLD:        register_mods(MOD_BIT(KC_RALT));     break;
         default: break;
     }
 }
 
-void td_nav_ralt_rst16(qk_tap_dance_state_t *state, void *user_data) {
+void td_nav_ralt_rst16(tap_dance_state_t *state, void *user_data) {
 
-    switch (td_state) {
+    switch (td_tap_state.state) {
         case TD_SINGLE_TAP:         unregister_code16(KC_LPRN);            break;
         case TD_SINGLE_HOLD:        unregister_mods(MOD_BIT(KC_RALT));     break;
         default: break;
     }
+
+    td_tap_state.state = TD_NONE;
 }
 
 // --
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
 
-    // [NAV_RGUI] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_LT, KC_RGUI})),
-    // [NAV_RCTL] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_DLR, KC_LCTL})),
-    // [NAV_RALT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
-    // [NAV_RSFT] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_LBRC, KC_RSFT})),
-    //
-    // [NUM_RGUI] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_EQL, KC_RGUI})),
-    // [NUM_RSFT] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_PLUS, KC_RSFT})),
-    //
-    // [SYM_LSFT] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_PIPE, KC_LSFT})),
-    // [SYM_LCTL] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_DLR, KC_LCTL})),
-    // [SYM_LALT] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_PERC, KC_LALT})),
-    // [SYM_LGUI] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_QUOT, KC_LGUI}))
-
-    [NAV_RGUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
-    [NAV_RCTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    [NAV_RGUI] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_LT, KC_RGUI})),
+    [NAV_RCTL] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_DLR, KC_LCTL})),
     [NAV_RALT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
-    [NAV_RSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    [NAV_RSFT] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_LBRC, KC_RSFT})),
 
-    [NUM_RGUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
-    [NUM_RSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    [NUM_RGUI] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_EQL, KC_RGUI})),
+    [NUM_RSFT] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_PLUS, KC_RSFT})),
 
-    [SYM_LSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
-    [SYM_LCTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
-    [SYM_LALT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
-    [SYM_LGUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 )
+    [SYM_LSFT] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_PIPE, KC_LSFT})),
+    [SYM_LCTL] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_DLR, KC_LCTL})),
+    [SYM_LALT] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_PERC, KC_LALT})),
+    [SYM_LGUI] = MY_ATDFA(NULL, td_fin16, td_rst16, &((td_usr_t) {KC_QUOT, KC_LGUI}))
+
+    // [NAV_RGUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    // [NAV_RCTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    // [NAV_RALT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    // [NAV_RSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    //
+    // [NUM_RGUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    // [NUM_RSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    //
+    // [SYM_LSFT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    // [SYM_LCTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    // [SYM_LALT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 ),
+    // [SYM_LGUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_nav_ralt_fin16, td_nav_ralt_rst16 )
 
 };
