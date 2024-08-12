@@ -1,23 +1,22 @@
 #!/bin/bash
 root_path="$(realpath "$(dirname $0)/..")"
 
-
 #check layout
 if [[ -z "$1" ]]; then
-  layout=default
+	layout=default
 else
-  layout="$1"
+	layout="$1"
 fi
 
 #check layout
 if [[ -z "$2" ]]; then
-  action=compile
+	action=compile
 else
-  action="$2"
+	action="$2"
 fi
 
 # echo "$root_path"
-repo_name="$(basename -s .git `git config --get remote.origin.url`)"
+repo_name="$(basename -s .git $(git config --get remote.origin.url))"
 
 run_path="$HOME/tmp/$repo_name/qmk_firmware"
 
@@ -25,7 +24,7 @@ run_path="$HOME/tmp/$repo_name/qmk_firmware"
 # mkdir -p "$run_path"
 
 if [[ ! -d "$run_path" ]]; then
-  qmk setup --home "$run_path"
+	qmk setup --home "$run_path"
 fi
 
 ln -s "$run_path" "$root_path/bin"
