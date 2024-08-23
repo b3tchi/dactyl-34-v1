@@ -1,0 +1,5 @@
+config SHIELD_POPUP_LEFT
+	def_bool $(shields_list_contains,popup_left)
+
+config SHIELD_POPUP_RIGHT
+	def_bool $(shields_list_contains,popup_right)

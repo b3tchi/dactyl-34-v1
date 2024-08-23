@@ -1,0 +1,12 @@
+file_format: "1"
+id: popup
+name: Pop-Up
+type: shield
+url: https://github.com/b3tchi/popup/
+requires: [pro_micro]
+exposes: []
+features:
+  - keys
+siblings:
+  - popup_left
+  - popup_right

@@ -1,0 +1,23 @@
+if SHIELD_POPUP_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "Pop-Up"
+
+config ZMK_SPLIT_BLE_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_POPUP_RIGHT
+
+config ZMK_KEYBOARD_NAME
+	default "Pop-Up Right"
+
+endif
+
+if SHIELD_POPUP_LEFT || SHIELD_POPUP_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif

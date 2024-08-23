@@ -47,7 +47,7 @@ pick 10) nice!nano v2
   - popup_left.conf *dummy empty*
   - popup_left.overlay *column mapping*
   - popup_right.conf *dummy empty*
- 	- popup_right.overlay column mapping
+    - popup_right.overlay column mapping
 
 ## zmk prerequisites
 
@@ -88,5 +88,22 @@ west update
 west zephyr-export
 # additional dependecies
 pip install -r zephyr/scripts/requirements-base.txt
+
+```
+
+## building
+
+```bash
+
+cp -r 
+
+```
+
+## wsl
+
+```bash
+
+wsl -d Ubuntu-zmk -u jan
+west build -s . -b nice_nano_v2 -- -DZMK_CONFIG=/workspace/zmk-config/config/ -DSHIELD=popup-left
 
 ```

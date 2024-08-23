@@ -1,1 +1,6 @@
-/bin
+bin
+zmk-config/zmk
+zmk-config/zephyr
+zmk-config/modules
+zmk-config/build
+
