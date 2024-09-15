@@ -37,7 +37,7 @@
             &kp KP_MINUS  &kp SLASH   &kp DOT        &kp P           &kp Y         &kp F             &kp G        &kp C        &kp R           &kp L
             &mt LSHIFT A  &mt LCTRL O &mt LALT E     &kp U           &mt LGUI I    &mt RGUI D        &kp H        &mt RALT T   &mt RCTRL N     &mt RSHIFT S
             &kp ESC       &kp Q       &kp J          &kp K           &kp X         &kp B             &kp M        &kp W        &kp V           &kp Z
-                                                     &kp TAB         &kp SYM SPACE &lt NAV ENTER     &lt NUM BSPC
+                                                     &kp FUN TAB     &kp SYM SPACE &lt NAV ENTER     &lt NUM BSPC
             >;
         };
         navigation_layer {
@@ -60,7 +60,7 @@
             bindings = <
             &kp BSLH  &kp AMPS        &kp STAR       &kp TILDE       &kp GRAVE     &trans            &trans       &trans       &trans          &trans
             &kp PIPE  &kp DLLR        &kp PRCNT      &kp CARET       &kp SQT       &kp RGUI          &kp SEMI     &kp RALT     &kp RCTRL       &kp RSHIFT
-            &kp QMARK &kp EXCL        &kp AT         &kp HASH        &kp DQT       &trans            &trans       &trans       &trans          &trans 
+            &kp QMARK &kp EXCL        &kp AT         &kp HASH        &kp DQT       &trans            &trans       &trans       &trans          &trans
                                                      &trans          &kp SPACE     &kp ENTER         &kp BSPC
             >;
         };
