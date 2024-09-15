@@ -29,8 +29,8 @@
             bindings = <
             &kp KP_MINUS  &kp SLASH &kp KP_DOT &kp P &kp Y                                              &kp F  &kp G  &kp C &kp R &kp L
             &kp A     &kp O &kp E &kp U &kp I                                                  			&kp D  &kp H  &kp T &kp N &kp S
-            &kp ESC   &kp Q &kp J &kp K &kp X            												&kp B  &kp N  &kp W &kp V &kp Z
-                            &none &kp TAB &kp SPACE       												&kp ENTER &kp BKSP &none  
+            &kp ESC   &kp Q &kp J &kp K &kp X            												&kp B  &kp M  &kp W &kp V &kp Z
+                                  &kp TAB &kp SPACE       												&kp ENTER &kp BKSP
             >;
 
             //sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
