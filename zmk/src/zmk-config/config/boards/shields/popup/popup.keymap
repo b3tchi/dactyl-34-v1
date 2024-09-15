@@ -29,12 +29,33 @@
 };
 
 / {
+	behaviors {
+		mod_minus: custom_minus {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp MINUS>, <&kp UNDER>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+    	mod_slash: custom_slash {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp SLASH>, <&kp COLON>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+    	mod_dot: custom_dot {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp DOT>, <&kp COMMA>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+};
+
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
             bindings = <
-            &kp KP_MINUS  &kp SLASH   &kp DOT        &kp P           &kp Y         &kp F             &kp G        &kp C        &kp R           &kp L
+            &mod_minus    &mod_slash  &mod_dot       &kp P           &kp Y         &kp F             &kp G        &kp C        &kp R           &kp L
             &mt LSHIFT A  &mt LCTRL O &mt LALT E     &kp U           &mt LGUI I    &mt RGUI D        &kp H        &mt RALT T   &mt RCTRL N     &mt RSHIFT S
             &kp ESC       &kp Q       &kp J          &kp K           &kp X         &kp B             &kp M        &kp W        &kp V           &kp Z
                                                      &lt FUN TAB     &lt SYM SPACE &lt NAV ENTER     &lt NUM BSPC
@@ -50,9 +71,9 @@
         };
         numerical_layer {
             bindings = <
-            &trans     &trans         &trans         &trans          &trans        &trans            &kp KP_N7    &kp KP_N8    &kp KP_N9       &trans
-            &kp LSHIFT &kp LCTRL      &kp LALT       &trans          &kp LGUI      &kp KP_EQUAL      &kp KP_N4    &kp KP_N5    &kp KP_N6       &kp KP_PLUS
-            &trans     &trans         &trans         &trans          &trans        &kp KP_N0         &kp KP_N1    &kp KP_N2    &kp KP_N3       &trans
+            &trans     &trans         &trans         &trans          &trans        &trans            &kp N7       &kp N8       &kp N9          &trans
+            &kp LSHIFT &kp LCTRL      &kp LALT       &trans          &kp LGUI      &kp KP_EQUAL      &kp N4       &kp N5       &kp N6          &kp KP_PLUS
+            &trans     &trans         &trans         &trans          &trans        &kp N0            &kp N1       &kp N2       &kp N3          &trans
                                                      &kp TAB         &kp SPACE     &trans            &kp BSPC
             >;
         };
