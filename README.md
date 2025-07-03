@@ -24,17 +24,6 @@ modification of pro-micro dactyl v0 adjusted for the 34keys
 
 <https://github.com/benvallack/34-QMK-Ferris-Sweep/blob/main/keymap.c>
 
-## installing zmk
-
-```ps1
-
-powershell -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://zmk.dev/setup.ps1'))"
-
-```
-
-pick 40) Kyria Rev v3 [details](https://zmk.dev/docs/hardware#composite)
-pick 10) nice!nano v2
-
 ## repository files overivew
 
 - zmk-config/boards/shileds/popup
@@ -47,24 +36,82 @@ pick 10) nice!nano v2
   - popup_left.conf *dummy empty*
   - popup_left.overlay *column mapping*
   - popup_right.conf *dummy empty*
-    - popup_right.overlay column mapping
+  - popup_right.overlay column mapping
+
+## preparing docker
+
+preparing files
+
+```nu
+# rm -rf ./workspace
+mkdir ./workspace
+cp -ruv ./zmk/src/zmk-config/ ./workspace/
+cp -ruv ./zmk/ci/ ./workspace/
+```
+
+run initial setup
+
+```nu
+(docker run -it -v
+ ./workspace:/workspace
+ zmkfirmware/zmk-build-arm:3.5
+ /bin/bash /workspace/ci/init.sh
+)
+```
+
+build parts
+
+```nu
+(docker run -it -v
+ ./workspace:/workspace
+ zmkfirmware/zmk-build-arm:3.5
+ /bin/bash /workspace/ci/build.sh
+)
+```
+
+## install docker manjaro/arch pacman
+
+```nu
+cp ./workspace/output/popup_right.uf2 /run/media/jan/NICENANO/
+```
+
+```nu
+
+sudo pacman -Syu
+sudo pacman -S docker
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+sudo usermod -aG docker $USER
+
+```
+
+# Appendix local approach notes
+
+## installing zmk
+
+```ps1
+powershell -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://zmk.dev/setup.ps1'))"
+```
+
+```bash
+bash -c "$(curl -fsSL https://zmk.dev/setup.sh)"
+```
+
+pick 40) Kyria Rev v3 [details](https://zmk.dev/docs/hardware#composite)
+pick 10) nice!nano v2
 
 ## zmk prerequisites
 
 ```bash
-
 scoop install cmake
-
 ```
 
 ## installing zmk dev
 
 ```bash
-
 git clone https://github.com/zmkfirmware/zmk.git
 cd zmk
 python -m venv .venv
-
 ```
 
 > [!NOTE]
@@ -95,7 +142,7 @@ pip install -r zephyr/scripts/requirements-base.txt
 
 ```bash
 
-cp -r 
+cp -r
 
 ```
 
