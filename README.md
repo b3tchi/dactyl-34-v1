@@ -45,6 +45,7 @@ preparing files
 ```nu
 # rm -rf ./workspace
 mkdir ./workspace
+
 cp -ruv ./zmk/src/zmk-config/ ./workspace/
 cp -ruv ./zmk/ci/ ./workspace/
 ```
@@ -70,6 +71,10 @@ build parts
 ```
 
 ## install docker manjaro/arch pacman
+
+```nu
+cp ./workspace/output/popup_left.uf2 /run/media/jan/NICENANO/
+```
 
 ```nu
 cp ./workspace/output/popup_right.uf2 /run/media/jan/NICENANO/
