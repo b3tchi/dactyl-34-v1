@@ -40,7 +40,7 @@ modification of pro-micro dactyl v0 adjusted for the 34keys
 
 ## preparing docker
 
-- preparing files
+### preparing files
 
 ```nu
 # rm -rf ./workspace
@@ -50,7 +50,7 @@ cp -ruv ./zmk/src/zmk-config/ ./workspace/
 cp -ruv ./zmk/ci/ ./workspace/
 ```
 
-- run initial setup
+### run initial setup
 
 ```nu
 (docker run -it -v
@@ -60,7 +60,15 @@ cp -ruv ./zmk/ci/ ./workspace/
 )
 ```
 
-- build parts
+#### rebuilding only firmware changes
+
+- when doing changes in copying repeat copying source code part and repeat steps starting with build
+
+```nu
+cp -ruv ./zmk/src/zmk-config/config ./workspace/zmk-config/.config
+```
+
+### build parts
 
 ```nu
 (docker run -it -v
@@ -69,6 +77,8 @@ cp -ruv ./zmk/ci/ ./workspace/
  /bin/bash /workspace/ci/build.sh
 )
 ```
+
+### deploying firmware
 
 - connect keyboard with usb
 - add keyboard to flash mode in case of nano or arduino it's double-click reset
@@ -83,32 +93,10 @@ cp ./workspace/output/popup_left.uf2 /run/media/jan/NICENANO/
 cp ./workspace/output/popup_right.uf2 /run/media/jan/NICENANO/
 ```
 
-*** rebuilding firmware changes
-
-- when doing changes in copying repeat copying source code part and repeat steps starting with build
-
-```nu
-cp -ruv ./zmk/src/zmk-config/config ./workspace/zmk-config/.config
-```
-
 ### mounting keyboard
 
 ensure `xorg-xinput` installed
-
-```nu
-#list connected devices
-xinput list
-
-#output list in the output is id 17 where slave keyboard
-#> Virtual core pointer
-#> ...
-#> ↳ ZMK Project Pop-Up Keyboard id=14 [slave pointer (2)]
-#> Virtual core keyboard
-#> ...
-#> ↳ ZMK Project Pop-Up Keyboard id=17 [slave keyboard (3)]
-
-setxbmap -device 17 -layout us
-```
+tbd wayland config
 
 nu query to extract id
 
@@ -125,6 +113,23 @@ let keyboard_id = (
 )
 
 setxbmap -device $keyboard_id -layout us
+```
+
+#### get id of the manually
+
+```nu
+#list connected devices
+xinput list
+
+#output list in the output is id 17 where slave keyboard
+#> Virtual core pointer
+#> ...
+#> ↳ ZMK Project Pop-Up Keyboard id=14 [slave pointer (2)]
+#> Virtual core keyboard
+#> ...
+#> ↳ ZMK Project Pop-Up Keyboard id=17 [slave keyboard (3)]
+
+setxbmap -device 17 -layout us
 ```
 
 ## install docker manjaro/arch pacman
