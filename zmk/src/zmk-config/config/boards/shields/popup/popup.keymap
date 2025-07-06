@@ -59,10 +59,13 @@
             &mod_minus    &mod_slash    &mod_dot     &kp P        &kp Y         &kp F          &kp G        &kp C        &kp R        &kp L
             &kp A         &kp O         &kp E        &kp U        &kp I         &kp D          &kp H        &kp T        &kp N        &kp S
             &kp ESC       &kp Q         &kp J        &kp K        &kp X         &kp B          &kp M        &kp W        &kp V        &kp Z
-            &kp LSHIFT    &kp LCTRL     &kp LALT     &kp LGUI     &lt SYM SPACE &lt NAV ENTER  &kp RGUI     &kp RALT     &kp RCTRL    &kp RSHIFT
-                                                                  &lt FUN TAB   &lt NUM BSPC
+            &kp LSHIFT    &kp LCTRL     &kp LALT     &kp LGUI     &kp SPACE     &kp ENTER      &kp RGUI     &kp RALT     &kp RCTRL    &kp RSHIFT
+                                                                  &kp TAB       &kp BSPC
             >;
         };
+            /* &kp LSHIFT    &kp LCTRL     &kp LALT     &kp LGUI     &lt SYM SPACE &lt NAV ENTER  &kp RGUI     &kp RALT     &kp RCTRL    &kp RSHIFT */
+            /*                                                       &lt FUN TAB   &lt NUM BSPC */
+
         /* navigation_layer { */
         /*     bindings = < */
         /*     &trans        &trans        &trans       &trans       &trans        &trans         &trans       &trans       &trans       &kp RIGHT */

@@ -40,7 +40,7 @@ modification of pro-micro dactyl v0 adjusted for the 34keys
 
 ## preparing docker
 
-preparing files
+- preparing files
 
 ```nu
 # rm -rf ./workspace
@@ -50,7 +50,7 @@ cp -ruv ./zmk/src/zmk-config/ ./workspace/
 cp -ruv ./zmk/ci/ ./workspace/
 ```
 
-run initial setup
+- run initial setup
 
 ```nu
 (docker run -it -v
@@ -60,7 +60,7 @@ run initial setup
 )
 ```
 
-build parts
+- build parts
 
 ```nu
 (docker run -it -v
@@ -70,7 +70,10 @@ build parts
 )
 ```
 
-## install docker manjaro/arch pacman
+- connect keyboard with usb
+- add keyboard to flash mode in case of nano or arduino it's double-click reset
+- *manually mount nano in f.e. thunnar*
+- flash with build firmwares
 
 ```nu
 cp ./workspace/output/popup_left.uf2 /run/media/jan/NICENANO/
@@ -79,6 +82,52 @@ cp ./workspace/output/popup_left.uf2 /run/media/jan/NICENANO/
 ```nu
 cp ./workspace/output/popup_right.uf2 /run/media/jan/NICENANO/
 ```
+
+*** rebuilding firmware changes
+
+- when doing changes in copying repeat copying source code part and repeat steps starting with build
+
+```nu
+cp -ruv ./zmk/src/zmk-config/config ./workspace/zmk-config/.config
+```
+
+### mounting keyboard
+
+ensure `xorg-xinput` installed
+
+```nu
+#list connected devices
+xinput list
+
+#output list in the output is id 17 where slave keyboard
+#> Virtual core pointer
+#> ...
+#> ↳ ZMK Project Pop-Up Keyboard id=14 [slave pointer (2)]
+#> Virtual core keyboard
+#> ...
+#> ↳ ZMK Project Pop-Up Keyboard id=17 [slave keyboard (3)]
+
+setxbmap -device 17 -layout us
+```
+
+nu query to extract id
+
+```nu
+let keyboard_id = (
+ xinput list 
+ | lines
+ | where ($it =~ 'Pop-Up') 
+ | where ($it =~ 'keyboard') 
+ | split row -r '\s+' 
+ | where ($it =~ 'id=') 
+ | split row '=' 
+ | get 1
+)
+
+setxbmap -device $keyboard_id -layout us
+```
+
+## install docker manjaro/arch pacman
 
 ```nu
 
