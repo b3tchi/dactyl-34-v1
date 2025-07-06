@@ -44,9 +44,9 @@ modification of pro-micro dactyl v0 adjusted for the 34keys
 
 ```nu
 # rm -rf ./workspace
-mkdir ./workspace
+mkdir ./workspace/zmk-config/
 
-cp -ruv ./zmk/src/zmk-config/ ./workspace/
+#cp -ruv ./zmk/src/zmk-config/ ./workspace/
 cp -ruv ./zmk/ci/ ./workspace/
 ```
 
@@ -65,7 +65,7 @@ cp -ruv ./zmk/ci/ ./workspace/
 - when doing changes in copying repeat copying source code part and repeat steps starting with build
 
 ```nu
-cp -ruv ./zmk/src/zmk-config/config ./workspace/zmk-config/.config
+cp -rfv ./zmk/src/zmk-config/config ./workspace/zmk-config/config
 ```
 
 ### build parts
@@ -84,6 +84,23 @@ cp -ruv ./zmk/src/zmk-config/config ./workspace/zmk-config/.config
 - add keyboard to flash mode in case of nano or arduino it's double-click reset
 - *manually mount nano in f.e. thunnar*
 - flash with build firmwares
+
+```nu
+mkdir ./nano
+sudo mount -t vfat -o 'rw,nosuid,nodev,relatime,uid=1000,gid=1000,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,showexec,utf8,flush,errors=remount-ro,uhelper=udisks2' /dev/sda $"('./nano' | path expand)"
+```
+
+```nu
+sudo cp $"('./workspace/output/popup_right.uf2' | path expand)" $"('./nano' | path expand)"
+sudo umount /dev/sda
+```
+
+```nu
+sudo cp $"('./workspace/output/popup_left.uf2' | path expand)" $"('./nano' | path expand)"
+sudo umount /dev/sda
+```
+
+*** manually mounted
 
 ```nu
 cp ./workspace/output/popup_left.uf2 /run/media/jan/NICENANO/
@@ -112,7 +129,7 @@ let keyboard_id = (
  | get 1
 )
 
-setxbmap -device $keyboard_id -layout us
+setxkbmap -device $keyboard_id -layout us
 ```
 
 #### get id of the manually

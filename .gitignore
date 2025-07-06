@@ -4,4 +4,5 @@ zmk-config/zephyr
 zmk-config/modules
 zmk-config/build
 workspace
+nano
 
