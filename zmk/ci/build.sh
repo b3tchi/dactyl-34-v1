@@ -3,8 +3,8 @@ build_part() {
 	west build -s app -b nice_nano_v2 -- \
 		-DZMK_CONFIG=/workspace/zmk-config/config/ \
 		-DSHIELD="$1"
-	mv -f ./build/zephyr/zmk.uf2 "../../output/$1.uf2" # copy binary to output
-	rm -rf ./build                                     # cleanup /workspace/zmk-config/zmk/build
+	mv -fv ./build/zephyr/zmk.uf2 "../../output/$1.uf2" # copy binary to output
+	rm -rf ./build                                      # cleanup /workspace/zmk-config/zmk/build
 }
 
 cd /workspace/zmk-config/ # navigate to the volume

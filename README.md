@@ -24,17 +24,6 @@ modification of pro-micro dactyl v0 adjusted for the 34keys
 
 <https://github.com/benvallack/34-QMK-Ferris-Sweep/blob/main/keymap.c>
 
-## installing zmk
-
-```ps1
-
-powershell -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://zmk.dev/setup.ps1'))"
-
-```
-
-pick 40) Kyria Rev v3 [details](https://zmk.dev/docs/hardware#composite)
-pick 10) nice!nano v2
-
 ## repository files overivew
 
 - zmk-config/boards/shileds/popup
@@ -47,24 +36,158 @@ pick 10) nice!nano v2
   - popup_left.conf *dummy empty*
   - popup_left.overlay *column mapping*
   - popup_right.conf *dummy empty*
-    - popup_right.overlay column mapping
+  - popup_right.overlay column mapping
+
+## preparing docker
+
+### preparing files
+
+```nu
+# rm -rf ./workspace
+mkdir ./workspace/zmk-config/
+
+#cp -ruv ./zmk/src/zmk-config/ ./workspace/
+cp -ruv ./zmk/ci/ ./workspace/
+```
+
+### run initial setup
+
+```nu
+(docker run -it -v
+ ./workspace:/workspace
+ zmkfirmware/zmk-build-arm:3.5
+ /bin/bash /workspace/ci/init.sh
+)
+```
+
+#### rebuilding only firmware changes
+
+- when doing changes in copying repeat copying source code part and repeat steps starting with build
+
+```nu
+cp -rfv ./zmk/src/zmk-config/config ./workspace/zmk-config/config
+```
+
+### build parts
+
+```nu
+(docker run -it -v
+ ./workspace:/workspace
+ zmkfirmware/zmk-build-arm:3.5
+ /bin/bash /workspace/ci/build.sh
+)
+```
+
+### deploying firmware
+
+- connect keyboard with usb
+- add keyboard to flash mode in case of nano or arduino it's double-click reset
+- *manually mount nano in f.e. thunnar*
+- flash with build firmwares
+
+```nu
+mkdir ./nano
+sudo mount -t vfat -o 'rw,nosuid,nodev,relatime,uid=1000,gid=1000,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,showexec,utf8,flush,errors=remount-ro,uhelper=udisks2' /dev/sda $"('./nano' | path expand)"
+```
+
+```nu
+sudo cp $"('./workspace/output/popup_right.uf2' | path expand)" $"('./nano' | path expand)"
+sudo umount /dev/sda
+```
+
+```nu
+sudo cp $"('./workspace/output/popup_left.uf2' | path expand)" $"('./nano' | path expand)"
+sudo umount /dev/sda
+```
+
+*** manually mounted
+
+```nu
+cp ./workspace/output/popup_left.uf2 /run/media/jan/NICENANO/
+```
+
+```nu
+cp ./workspace/output/popup_right.uf2 /run/media/jan/NICENANO/
+```
+
+### mounting keyboard
+
+ensure `xorg-xinput` installed
+tbd wayland config
+
+nu query to extract id
+
+```nu
+let keyboard_id = (
+ xinput list 
+ | lines
+ | where ($it =~ 'Pop-Up') 
+ | where ($it =~ 'keyboard') 
+ | split row -r '\s+' 
+ | where ($it =~ 'id=') 
+ | split row '=' 
+ | get 1
+)
+
+setxkbmap -device $keyboard_id -layout us
+```
+
+#### get id of the manually
+
+```nu
+#list connected devices
+xinput list
+
+#output list in the output is id 17 where slave keyboard
+#> Virtual core pointer
+#> ...
+#> ↳ ZMK Project Pop-Up Keyboard id=14 [slave pointer (2)]
+#> Virtual core keyboard
+#> ...
+#> ↳ ZMK Project Pop-Up Keyboard id=17 [slave keyboard (3)]
+
+setxbmap -device 17 -layout us
+```
+
+## install docker manjaro/arch pacman
+
+```nu
+
+sudo pacman -Syu
+sudo pacman -S docker
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+sudo usermod -aG docker $USER
+
+```
+
+# Appendix local approach notes
+
+## installing zmk
+
+```ps1
+powershell -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://zmk.dev/setup.ps1'))"
+```
+
+```bash
+bash -c "$(curl -fsSL https://zmk.dev/setup.sh)"
+```
+
+pick 40) Kyria Rev v3 [details](https://zmk.dev/docs/hardware#composite)
+pick 10) nice!nano v2
 
 ## zmk prerequisites
 
 ```bash
-
 scoop install cmake
-
 ```
 
 ## installing zmk dev
 
 ```bash
-
 git clone https://github.com/zmkfirmware/zmk.git
 cd zmk
 python -m venv .venv
-
 ```
 
 > [!NOTE]
@@ -95,7 +218,7 @@ pip install -r zephyr/scripts/requirements-base.txt
 
 ```bash
 
-cp -r 
+cp -r
 
 ```
 
