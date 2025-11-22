@@ -115,21 +115,14 @@ cp ./workspace/output/popup_right.uf2 /run/media/jan/NICENANO/
 ensure `xorg-xinput` installed
 tbd wayland config
 
-nu query to extract id
-
+set notebook keyboard as dvorak (part of i3 config)
 ```nu
-let keyboard_id = (
- xinput list 
- | lines
- | where ($it =~ 'Pop-Up') 
- | where ($it =~ 'keyboard') 
- | split row -r '\s+' 
- | where ($it =~ 'id=') 
- | split row '=' 
- | get 1
-)
+setxkbmap -device (xinput list --id-only 'keyboard:AT Translated Set 2 keyboard') -layout us -variant dvorak
+```
 
-setxkbmap -device $keyboard_id -layout us
+set pop-up keyboard as dvorak
+```nu
+setxkbmap -device (xinput list --id-only 'keyboard:ZMK Project Pop-Up Keyboard') -layout us -variant qwerty
 ```
 
 #### get id of the manually
@@ -147,6 +140,15 @@ xinput list
 #> ↳ ZMK Project Pop-Up Keyboard id=17 [slave keyboard (3)]
 
 setxbmap -device 17 -layout us
+```
+
+### reset keyboard halves pairing
+dual split keyboards are automatically try to pair them selfs when not
+yet paired and resetted simultanously this pairing is stored in chip and not overwrite by
+flashing new version tu unpair both sides have to be re-flashed by special image and then flashed again with the existing rom this rom is built together with halves
+
+```nu
+cp ./workspace/output/settings_reset.uf2 /run/media/jan/NICENANO/
 ```
 
 ## install docker manjaro/arch pacman

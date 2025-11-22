@@ -13,3 +13,4 @@ mkdir -p ./../output      # create /workspace/output
 cd ./zmk                  # go to /workspace/zmk-config/zmk
 build_part popup_left     # build left with function build_part
 build_part popup_right    # build right with function build_part
+build_part settings_reset # build special part to unpair halfes
