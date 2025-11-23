@@ -1,28 +1,6 @@
-# dactyl-34-v1
+# popup-42-v1
 
-modification of pro-micro dactyl v0 adjusted for the 34keys
-
-## info how for custom shift
-
-<https://getreuer.info/posts/keyboards/custom-shift-keys/index.html>
-
-## another approach derived from miryoku (Prefered)
-
-<https://peppe.rs/posts/programming_on_34_keys/>
-
-## list of default keycodes
-
-<https://docs.qmk.fm/#/keycodes_basic>
-
-## home row mod article
-
-<https://precondition.github.io/home-row-mods>
-
-## other resources
-
-### ben vallack using another interesting concept of tap dance TD()
-
-<https://github.com/benvallack/34-QMK-Ferris-Sweep/blob/main/keymap.c>
+zmk based split keyboard inpired by dactyl renamed to pop-up butterfly with dvorak layout
 
 ## repository files overivew
 
@@ -115,21 +93,14 @@ cp ./workspace/output/popup_right.uf2 /run/media/jan/NICENANO/
 ensure `xorg-xinput` installed
 tbd wayland config
 
-nu query to extract id
-
+set notebook keyboard as dvorak (part of i3 config)
 ```nu
-let keyboard_id = (
- xinput list 
- | lines
- | where ($it =~ 'Pop-Up') 
- | where ($it =~ 'keyboard') 
- | split row -r '\s+' 
- | where ($it =~ 'id=') 
- | split row '=' 
- | get 1
-)
+setxkbmap -device (xinput list --id-only 'keyboard:AT Translated Set 2 keyboard') -layout us -variant dvorak
+```
 
-setxkbmap -device $keyboard_id -layout us
+set pop-up keyboard as qwerty as dvorak as directly in the map
+```nu
+setxkbmap -device (xinput list --id-only 'keyboard:ZMK Project Pop-Up Keyboard') -layout us -variant qwerty
 ```
 
 #### get id of the manually
@@ -149,6 +120,14 @@ xinput list
 setxbmap -device 17 -layout us
 ```
 
+### reset keyboard halves pairing
+Dual split keyboards are automatically try to pair themself, when not yet paired and resetted simultanously. This pairing is stored somewhere in board and not overwritten with
+flashing new versions. To unpair, both sides have to be flashed by special image and then re-flashed again with the existing board images.
+
+```nu
+cp ./workspace/output/settings_reset.uf2 /run/media/jan/NICENANO/
+```
+
 ## install docker manjaro/arch pacman
 
 ```nu
@@ -161,10 +140,7 @@ sudo usermod -aG docker $USER
 
 ```
 
-# Appendix local approach notes
-
-## installing zmk
-
+## Appendix A local zmk installing approach notes
 ```ps1
 powershell -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://zmk.dev/setup.ps1'))"
 ```
@@ -176,13 +152,13 @@ bash -c "$(curl -fsSL https://zmk.dev/setup.sh)"
 pick 40) Kyria Rev v3 [details](https://zmk.dev/docs/hardware#composite)
 pick 10) nice!nano v2
 
-## zmk prerequisites
+### zmk prerequisites
 
 ```bash
 scoop install cmake
 ```
 
-## installing zmk dev
+### installing zmk dev
 
 ```bash
 git clone https://github.com/zmkfirmware/zmk.git
@@ -201,7 +177,7 @@ nu
 
 ```
 
-## updating environment
+### updating environment
 
 ```bash
 
@@ -214,7 +190,7 @@ pip install -r zephyr/scripts/requirements-base.txt
 
 ```
 
-## building
+### building
 
 ```bash
 
@@ -222,7 +198,7 @@ cp -r
 
 ```
 
-## wsl
+### wsl
 
 ```bash
 
@@ -230,3 +206,28 @@ wsl -d Ubuntu-zmk -u jan
 west build -s . -b nice_nano_v2 -- -DZMK_CONFIG=/workspace/zmk-config/config/ -DSHIELD=popup-left
 
 ```
+
+## Appendix B notes to original 34 key variant with homerow mod
+modification of pro-micro dactyl v0 adjusted for the 34keys
+
+### info how for custom shift
+
+<https://getreuer.info/posts/keyboards/custom-shift-keys/index.html>
+
+### another approach derived from miryoku (Abandoned)
+unordered listginally qmk with	34 keys and homerow mode 
+
+<https://peppe.rs/posts/programming_on_34_keys/>
+
+### list of default keycodes qmk
+
+<https://docs.qmk.fm/#/keycodes_basic>
+
+### home row mod article
+
+<https://precondition.github.io/home-row-mods>
+
+### ben vallack using another interesting concept of tap dance TD()
+
+<https://github.com/benvallack/34-QMK-Ferris-Sweep/blob/main/keymap.c>
+
