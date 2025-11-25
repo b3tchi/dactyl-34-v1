@@ -9,7 +9,7 @@ zmk based split keyboard inpired by dactyl renamed to pop-up butterfly with dvor
   - Kconfig.shield *decision if left or ringht*
   - dusk.conf *only sleep option*
   - popup.dtsi *rows and map*
-  - popup.keymap *keymap*
+  - popup.keymap *keymap* [kycodes](https://zmk.dev/docs/keymaps/list-of-keycodes)
   - popup.zmk.yml *config*
   - popup_left.conf *dummy empty*
   - popup_left.overlay *column mapping*
