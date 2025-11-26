@@ -24,12 +24,16 @@ zmk based split keyboard inpired by dactyl renamed to pop-up butterfly with dvor
 # rm -rf ./workspace
 mkdir ./workspace/zmk-config/
 
-#cp -ruv ./zmk/src/zmk-config/ ./workspace/
+# cp -ruv ./zmk/src/zmk-config/ ./workspace/
 cp -ruv ./zmk/ci/ ./workspace/
 ```
 
 ### run initial setup
 
+- for initial setup
+```nu
+cp -rfv ./zmk/src/zmk-config/config ./workspace/zmk-config/config
+```
 ```nu
 (docker run -it -v
  ./workspace:/workspace
@@ -42,10 +46,10 @@ cp -ruv ./zmk/ci/ ./workspace/
 
 - when doing changes in copying repeat copying source code part and repeat steps starting with build
 
+- for overwritting firmwared
 ```nu
-cp -rfv ./zmk/src/zmk-config/config ./workspace/zmk-config/config
+cp -rfv ./zmk/src/zmk-config/config ./workspace/zmk-config
 ```
-
 ### build parts
 
 ```nu

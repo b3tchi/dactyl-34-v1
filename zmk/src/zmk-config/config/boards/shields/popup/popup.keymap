@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* #include <behaviors.dtsi> */
+#include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 
@@ -23,13 +23,13 @@
  */
 
 
-&mt {
-  flavor = "tap-preferred";
-  tapping_term_ms = <200>;
-  quick_tap_ms = <75>;
-};
-
-/* / { */
+/* &mt { */
+/*   flavor = "tap-preferred"; */
+/*   tapping_term_ms = <200>; */
+/*   quick_tap_ms = <75>; */
+/* }; */
+/**/
+/ {
 /* 	behaviors { */
 /* 		mod_minus: custom_minus { */
 /*             compatible = "zmk,behavior-mod-morph"; */
@@ -59,14 +59,14 @@
             &kp UNDER     &kp SLASH     &kp DOT      &kp P        &kp Y                  &kp F          &kp G        &kp C        &kp R        &kp L
             &kp A         &kp O         &kp E        &kp U        &kp I                  &kp D          &kp H        &kp T        &kp N        &kp S
             &kp ESC       &kp Q         &kp J        &kp K        &kp X                  &kp B          &kp M        &kp W        &kp V        &kp Z
-            &kp LSHIFT    &kp LCTRL     &kp LALT     &kp LGUI     &lt SYM SPACE          &lt NUM BSPC   &kp RGUI     &kp RALT     &kp RCTRL    &kp RSHIFT
-                                                                  &lt FUN TAB            &lt NAV ENTER
+            &kp LSHIFT    &kp LCTRL     &kp LALT     &kp LGUI     &lt SYM SPACE          &lt NAV BSPC   &kp RGUI     &kp RALT     &kp RCTRL    &kp RSHIFT
+                                                                  &lt FUN TAB            &lt NUM ENTER
 			>;
         };
 
         navigation_layer {
             bindings = <
-            &trans        &trans        &trans       &trans       &trans                 &trans         &trans       &trans       &trans       &kp RIGHT
+            &trans        &trans        &trans       &trans       &trans                 &trans         &kp SEMI     &trans       &kp DELETE   &kp RIGHT
             &trans        &trans        &trans       &trans       &trans                 &kp LT         &kp LEFT     &kp LPAR     &kp LBRC     &kp LBKT
             &trans        &trans        &kp DOWN     &kp UP       &trans                 &kp GT         &kp COLON    &kp RPAR     &kp RBRC     &kp RBKT
             &kp LSHIFT    &kp LCTRL     &kp LALT     &kp LGUI     &kp SPACE              &kp BSPC       &kp RGUI     &kp RALT     &kp RCTRL    &kp RSHIFT
@@ -76,7 +76,7 @@
 
         numerical_layer {
             bindings = <
-            &trans        &trans        &trans       &trans       &trans                 &kp SEMI       &kp N7       &kp N8       &kp N9       &kp COMMA
+            &trans        &trans        &trans       &trans       &trans                 &trans         &kp N7       &kp N8       &kp N9       &kp COMMA
             &trans        &trans        &trans       &trans       &trans                 &kp EQUAL      &kp N4       &kp N5       &kp N6       &kp PLUS
             &trans        &trans        &trans       &trans       &trans                 &kp N0         &kp N1       &kp N2       &kp N3       &kp MINUS
             &kp LSHIFT    &kp LCTRL     &kp LALT     &kp LGUI     &kp SPACE              &kp BSPC       &kp RGUI     &kp RALT     &kp RCTRL    &kp RSHIFT
