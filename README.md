@@ -104,7 +104,7 @@ setxkbmap -device (xinput list --id-only 'keyboard:AT Translated Set 2 keyboard'
 
 set pop-up keyboard as qwerty as dvorak as directly in the map
 ```nu
-setxkbmap -device (xinput list --id-only 'keyboard:ZMK Project Pop-Up Keyboard') -layout us -variant qwerty
+setxkbmap -device (xinput list --id-only 'keyboard:ZMK Project Pop-Up Keyboard') -layout us
 ```
 
 #### get id of the manually
